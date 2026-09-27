@@ -1,0 +1,968 @@
+@charset "utf-8";
+
+/* 基本 */
+html {
+    scroll-behavior: smooth;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+:root {
+    --basecolor: #f4f4f4;
+    --accentcolor: #d83a3a;
+    --fontcolor: #1a1a1a;
+    --darkgray: #414141;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+body {
+    background-color: var(--basecolor);
+    color: var(--fontcolor);
+    font-size: 15px;
+    font-family: "Zen Kaku Gothic Antique", sans-serif;
+    line-height: 1.75;
+}
+
+section {
+    margin-bottom: 7rem;
+}
+
+#works_wrap,
+.hero_wrap,
+#selfintro_wrap,
+.contact_wrap,
+#thanks_wrap,
+#works01_wrap,
+#works02_wrap,
+#works03_wrap,
+#works04_wrap {
+    width: 1200px;
+    margin: auto;
+}
+
+#works01_wrap,
+#works02_wrap,
+#works03_wrap,
+#works04_wrap {
+    margin-top: 5rem;
+}
+
+h1 {
+    font-size: 100px;
+    letter-spacing: 0.4 !important;
+    line-height: 1.25;
+}
+
+h2 {
+    font-size: 55px;
+    line-height: 1;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0.25rem 0 0.5rem 0.5em;
+}
+
+h4 {
+    padding-left: 1em;
+    padding-bottom: 0.25rem;
+}
+
+h5 {
+    font-size: 55px;
+    font-weight: normal;
+    margin: 0;
+    line-height: 1;
+}
+
+.sans_flex {
+    font-family: "Google Sans Flex", sans-serif;
+}
+
+.section_subtitle {
+    font-size: 14px;
+    color: #333;
+    margin: 0.25rem 0;
+    line-height: 1;
+    margin-bottom: 3rem;
+}
+
+/* テキストリビール */
+.reveal-line {
+    display: block;
+    /* .text-realのdisplay:blockと合わせて改行維持 */
+}
+
+.text-reveal {
+    display: block;
+    overflow: hidden;
+}
+
+.text-reveal-inner {
+    display: block;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.text-reveal.is-animated .text-reveal-inner {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ヘッダー */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 5vw;
+    background-color: transparent;
+    color: var(--fontcolor);
+    /* heroセクション内では非表示。.visibleが付くまでは操作もできないようにしておく */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity .4s ease, transform .4s ease, visibility .4s ease,
+        background-color .35s ease, color .35s ease;
+}
+
+/* heroセクションを抜けたら表示 */
+header.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* メニューが開いている間は背景色と文字色を反転させて明示する */
+header.open {
+    background-color: var(--fontcolor);
+    color: var(--basecolor);
+}
+
+/* ナビ */
+
+
+.logo {
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: .06em;
+    color: inherit;
+}
+
+.menu-btn {
+    width: 32px;
+    height: 22px;
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 110;
+}
+
+.menu-btn span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+    transition: transform .35s ease, opacity .35s ease, background .35s ease;
+}
+
+.menu-btn span:nth-child(1) {
+    top: 0;
+}
+
+.menu-btn span:nth-child(2) {
+    top: 10px;
+}
+
+.menu-btn span:nth-child(3) {
+    top: 20px;
+}
+
+.menu-btn.open span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.menu-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-btn.open span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+.nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--fontcolor);
+    z-index: 105;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.6rem;
+    padding: 0 10vw;
+    /* ハンバーガーメニューをタップすると、y軸方向に上から下へスライドして現れる */
+    transform: translateY(-100%);
+    transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+
+.nav-overlay.open {
+    transform: translateY(0);
+}
+
+.nav-overlay a {
+    color: var(--basecolor);
+    font-size: 2rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: .15em;
+}
+
+.nav-overlay a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 0;
+    background: var(--accentcolor);
+    transition: width .35s ease;
+}
+
+.nav-overlay a:hover::after,
+.nav-overlay a:focus-visible::after {
+    width: 100%;
+}
+
+.nav-overlay small {
+    color: var(--accentcolor);
+    letter-spacing: .2em;
+    font-size: .7rem;
+}
+
+/* HERO */
+#hero {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 10rem;
+}
+
+/* WORKS */
+.works_wrap .swiper {
+    /* SP幅でSwiperが動く際、はみ出したカードを隠すための土台 */
+    overflow: hidden;
+}
+
+.works_card {
+    display: flex;
+    gap: 1rem;
+
+}
+
+.works_card li {
+    width: calc((100% / 4) - 1rem);
+    height: auto;
+    aspect-ratio: 3 / 4;
+    border-radius: 10px;
+    background-color: #dedede;
+    display: flex;
+    align-items: var(--darkgray);
+    position: relative;
+}
+
+.works_card li {
+    background-image: linear-gradient(transparent, #0000007d);
+    background-size: cover;
+    background-position: center;
+}
+
+.works_card li:first-child {
+    background-image: url(../img/mock01.webp);
+}
+
+.works_card li:nth-child(2) {
+    background-image: url(../img/mock01.webp);
+}
+
+.works_card li:nth-child(3) {
+    background-image: url(../img/mock01.webp);
+}
+
+.works_card li:nth-child(4) {
+    background-image: url(../img/mock01.webp);
+}
+
+.bc_gradation {
+    display: inline-block;
+    width: 100%;
+}
+
+.works_title {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+}
+
+/* ABOUT */
+
+
+.selfportrait_wrap {
+    padding: 5rem 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.me_img {
+    width: 20%;
+}
+
+.me_img img {
+    border-radius: 50%;
+}
+
+.me_text {
+    width: 60%;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.name_deco {
+    margin-bottom: 1rem;
+}
+
+/* SwiperがJSでtransformを与える土台。はみ出したカードを隠す */
+.skill_swiper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.skillcard_wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    /* カード間の余白はSwiperのspaceBetweenで付与するため、ここではgapを持たせない */
+}
+
+.skillcard {
+    flex-shrink: 0;
+    /* 画面幅に関わらず同じデザイン（2.x枚が見えるピーク表示）になる固定幅 */
+    width: min(320px, 78vw);
+    border-radius: 10px;
+    color: var(--basecolor);
+    padding: 1rem;
+    background-color: var(--darkgray);
+}
+
+
+.skill_icon {
+    width: 50px;
+
+}
+
+
+
+.skill_title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.star_flex {
+    display: flex;
+}
+
+.star {
+    width: 20px;
+    height: 20px;
+}
+
+.star img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    /* アスペクト比を無視して枠いっぱいに広げる */
+    display: block;
+    /* インライン要素特有の隙間を消す */
+}
+
+.detail {
+    padding-left: 1em;
+}
+
+.detail li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5em;
+}
+
+.detail li::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 1.5px;
+    background-color: var(--basecolor);
+    flex-shrink: 0;
+    margin-top: 0.55em;
+}
+
+
+/* CONTACT */
+
+.contact_form {
+    width: 800px;
+    margin: auto;
+}
+
+.lead-text {
+    font-size: 14px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+}
+
+.lead-note {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #555;
+    margin: 0;
+}
+
+form {
+    margin-top: 40px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: #d0021b;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+    border: 1px solid #d0021b;
+    padding: 1px 6px;
+    border-radius: 2px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 14px;
+    border: 0.25px #555 solid;
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-family: inherit;
+}
+
+textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid #333;
+}
+
+button.submit-btn {
+    width: 100%;
+    max-width: 340px;
+    padding: 20px 0;
+    background-color: var(--fontcolor);
+    color: #ffffff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: 0.3s ease-in-out;
+}
+
+button.submit-btn:hover {
+    border-radius: 50px;
+}
+
+.error-message {
+    color: #d00;
+    font-size: 14px;
+    margin: 0 0 15px;
+    text-align: center;
+}
+
+/* WORKS詳細ページ（共通） */
+.work-breadcrumb {
+    margin-bottom: 2.5rem;
+}
+
+.work-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 13px;
+    color: var(--darkgray);
+    transition: color .25s ease;
+}
+
+.work-breadcrumb a::before {
+    content: "←";
+    display: inline-block;
+    transition: transform .25s ease;
+}
+
+.work-breadcrumb a:hover {
+    color: var(--accentcolor);
+}
+
+.work-breadcrumb a:hover::before {
+    transform: translateX(-3px);
+}
+
+.work-category {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accentcolor);
+    margin-bottom: 0.75rem;
+}
+
+.work-hero {
+    margin-bottom: 3.5rem;
+}
+
+.work-hero h1 {
+    font-size: 60px;
+    margin-bottom: 1.5rem;
+}
+
+.work-hero .hero_copy {
+    max-width: 700px;
+    color: #333;
+}
+
+.work-meta-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 4rem;
+    margin: 3rem 0 5rem;
+    padding: 2rem 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.work-meta-list dt {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: #777;
+    margin-bottom: 0.4rem;
+}
+
+.work-meta-list dd {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.work-link-btn {
+    display: inline-block;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0.9rem 2.2rem;
+    background-color: var(--fontcolor);
+    color: #ffffff;
+    border-radius: 2px;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    transition: background-color .25s ease;
+}
+
+.work-link-btn:hover {
+    background-color: #222222;
+    border-radius: 50px;
+    transition: 0.4s ease-in-out;
+}
+
+.view_site {
+    text-align: center;
+}
+
+.work-nextprev {
+    display: flex;
+    justify-content: space-between;
+    margin: 5rem 0 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #ccc;
+    font-size: 13px;
+}
+
+.work-nextprev a {
+    color: var(--darkgray);
+}
+
+.work-nextprev a:hover {
+    color: var(--accentcolor);
+}
+
+
+
+/* works01：横長モックアップ */
+.work-mockup {
+    width: 100%;
+    aspect-ratio: 16 / 4.5;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #dedede;
+    margin-bottom: 4rem;
+}
+
+.work-mockup img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.work-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.work-gallery img {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #dedede;
+}
+
+.work-detail-text {
+    margin-bottom: 4rem;
+}
+
+.work-detail-text h3 {
+    padding-left: 0;
+}
+
+.work-detail-text p {
+    max-width: 800px;
+}
+
+/* works03：バナー3サイズ */
+.banner-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.banner-item h3 {
+    padding-left: 0;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75em;
+}
+
+.banner-item .banner-size {
+    font-size: 13px;
+    font-weight: 400;
+    color: #777;
+}
+
+.banner-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dedede;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.banner-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-frame.size-leaderboard {
+    width: 100%;
+    max-width: 700px;
+    aspect-ratio: 16 / 9;
+}
+
+.banner-frame.size-rectangle {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+}
+
+.banner-frame.size-skyscraper {
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 36 / 7;
+}
+
+/* works04：ショート動画 */
+.video-showcase {
+    margin-bottom: 4rem;
+}
+
+.video-frame {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 9 / 16;
+    margin: 0 auto;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-frame video,
+.video-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+}
+
+
+/* サンクスページ */
+#thanks_wrap {
+    margin-top: 40vh;
+}
+
+@media screen and (max-width: 1299px) {
+
+    /* 基本 */
+    .hero_wrap,
+    #works_wrap,
+    #selfintro_wrap,
+    .contact_wrap,
+    #thanks_wrap,
+    #footer_wrap,
+    #works01_wrap,
+    #works02_wrap,
+    #works03_wrap,
+    #works04_wrap {
+        width: 80%;
+        margin: auto;
+    }
+
+    /* ヘッダー */
+    /* ナビ */
+    /* HERO */
+    #hero {
+        padding: 10rem 4rem;
+    }
+
+    /* WORKS */
+    .works_card {
+        flex-wrap: wrap;
+    }
+
+    /* WORKS詳細ページ */
+    .work-hero h1 {
+        font-size: 46px;
+    }
+
+    .banner-frame.size-leaderboard,
+    .banner-frame.size-rectangle {
+        max-width: 100%;
+    }
+
+    .works_card li {
+        width: calc((100% / 2) - 1rem);
+        height: auto;
+        aspect-ratio: 4 / 3;
+        border-radius: 10px;
+        background-color: #dedede;
+    }
+
+    /* ABOUT */
+    /* スキルカードはSwiperで全幅共通デザインのため、ここでの幅上書きは不要 */
+
+    /* CONTACT */
+    .contact_form {
+        width: 100%;
+        margin: auto;
+    }
+
+    @media screen and (max-width: 767px) {
+
+        /* 基本 */
+        .hero_wrap,
+        #works_wrap,
+        #selfintro_wrap,
+        .contact_wrap,
+        #thanks_wrap,
+        #footer_wrap,
+        #works01_wrap,
+        #works02_wrap,
+        #works03_wrap,
+        #works04_wrap {
+            width: 90%;
+            margin: auto;
+        }
+
+        /* ヘッダー */
+        /* ナビ */
+        /* HERO */
+        h1 {
+            font-size: 70px;
+        }
+
+        h2 {
+            font-size: 50px;
+        }
+
+        .text-reveal-inner {
+            display: inline-block;
+            width: 90%;
+        }
+
+        #hero {
+            aspect-ratio: 9 / 16;
+            padding: 10rem 1rem 4rem 1rem;
+        }
+
+        /* WORKS */
+        #works_wrap .swiper {
+            overflow: hidden;
+        }
+
+        .works_card {
+            flex-wrap: nowrap;
+            gap: 0;
+            width: 100%;
+        }
+
+        .works_card li {
+            flex-shrink: 0;
+            /* Swiperが各カードの幅をpx指定で上書きするので、幅はJS側(slidesPerView)に任せる */
+            height: auto;
+            aspect-ratio: 1 / 1;
+            border-radius: 10px;
+            background-color: #dedede;
+            position: relative;
+        }
+
+        @keyframes swipeHint {
+
+            0%,
+            100% {
+                transform: translateX(0);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translateX(6px);
+                opacity: 1;
+            }
+        }
+
+        /* ABOUT */
+        /* スキルカードはSwiperで全幅共通デザインのため、ここでの幅上書きは不要 */
+
+        .selfportrait_wrap {
+            padding: 1rem 1rem 3rem 1rem;
+            flex-direction: column;
+            align-items: baseline;
+        }
+
+        .me_img {
+            width: 30%;
+            margin-bottom: 1rem;
+        }
+
+        .me_text {
+            width: 100%;
+        }
+
+        /* CONTACT */
+        .contact_form {
+            width: 100%;
+        }
+
+
+        /* WORKS詳細ページ */
+        .work-hero h1 {
+            font-size: 38px;
+        }
+
+        .work-meta-list {
+            gap: 1.5rem 2.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .work-mockup {
+            aspect-ratio: 4 / 3;
+            margin-bottom: 3rem;
+        }
+
+        .banner-showcase {
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .banner-frame.size-leaderboard,
+        .banner-frame.size-rectangle,
+        .banner-frame.size-skyscraper {
+            max-width: 100%;
+        }
+
+        .banner-frame.size-skyscraper {
+            max-width: 220px;
+            margin: 0 auto;
+        }
+
+        .video-frame {
+            max-width: 300px;
+        }
+
+        .work-nextprev {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+}

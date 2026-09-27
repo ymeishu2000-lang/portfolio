@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THANKS</title>
+    <link rel="stylesheet" href="css/destyle.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        .matrix .bg-wrap,
+        .matrix .bg-wrap .inn {
+            display: block;
+        }
+
+        .matrix .bg-wrap {
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .matrix .bg-wrap+.bg-wrap {
+            margin-top: 10px;
+        }
+
+        .matrix .bg-wrap .inn.small {
+            font-size: 15px;
+        }
+
+        .matrix .bg-wrap .inn {
+            opacity: 0;
+            transform: matrix(1, 0, 0, 1, 0, 100);
+            transition: 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .matrix.is-animated .bg-wrap {
+            opacity: 1;
+        }
+
+        .matrix.is-animated .bg-wrap .inn {
+            opacity: 1;
+            transform: matrix(1, 0, 0, 1, 0, 0);
+        }
+
+        /* largeの0.25秒後にsmallを開始 */
+        .matrix.is-animated .bg-wrap:nth-child(2) .inn.small {
+            transition-delay: 0.25s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="thanks_wrap" class="matrix anim">
+        <span class="bg-wrap">
+            <h2 class="sans_flex inn large">THANK YOU</h2>
+        </span>
+        <span class="bg-wrap">
+            <p class="inn small">お問い合わせいただきありがとうございます。<br>
+                3日以内の返信を心がけておりますが、返信が遅れる場合がございます。<br>
+                ご了承ください。
+            </p>
+        </span>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const targets = document.querySelectorAll(".matrix");
+
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("is-animated");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.1,
+                    rootMargin: "0px 0px -10% 0px",
+                }
+            );
+
+            targets.forEach((target) => {
+                observer.observe(target);
+            });
+        });
+    </script>
+</body>
+
+</html>

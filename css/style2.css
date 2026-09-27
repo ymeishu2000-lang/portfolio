@@ -1,0 +1,297 @@
+/* ---------------------------------------------
+   Tokens
+--------------------------------------------- */
+:root {
+  --color-bg: #fefefe;
+  --color-bg-raise: #171b21;
+  --color-text-muted: #9a968c;
+  --color-accent: #6e8c82;
+  --color-line: rgba(236, 232, 223, 0.12);
+
+  --font-display: "Google Sans Flex", sans-serif;
+  --font-body: "Zen Kaku Gothic Antique", sans-serif;
+
+  --gap: 14px;
+  --container-max: 1200px;
+}
+
+/* ---------------------------------------------
+   Reset
+--------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+h3,
+p {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------
+   Intro
+--------------------------------------------- */
+.intro {
+  padding: 120px 24px 80px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.intro-inner {
+  max-width: 640px;
+  margin: 0 0 0 max(24px, 4vw);
+}
+
+.eyebrow {
+  font-size: 13px;
+  color: var(--color-accent);
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+}
+
+.reveal-mask {
+  overflow: hidden;
+  padding-bottom: 0.15em;
+  /* keep descenders from clipping */
+}
+
+.reveal-mask h3,
+.reveal-mask p {
+  transform: translateY(115%);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.7s ease;
+  will-change: transform;
+}
+
+.reveal-mask.in-view h3,
+.reveal-mask.in-view p {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+#revealTitle h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+#revealText {
+  margin-top: 22px;
+}
+
+#revealText p {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 767px) {
+  .intro {
+    padding: 88px 20px 56px;
+  }
+
+  .intro-inner {
+    margin: 0;
+    max-width: 100%;
+  }
+}
+
+/* ---------------------------------------------
+   Masonry grid (Pinterest-style, full-bleed)
+--------------------------------------------- */
+main {
+  padding: 40px 0 96px;
+}
+
+/* CSS multi-column masonry: the browser lays each card into the
+   next available column, so column height naturally varies card
+   to card — no fixed row tracks, and the wall stretches to fill
+   the full width of the viewport rather than a centered container. */
+.bento {
+  width: 100%;
+  padding: 0 var(--gap);
+  column-count: 2;
+  /* < 767px : base / mobile */
+  column-gap: var(--gap);
+}
+
+/* Breakpoint: 767px – 1023px */
+@media (min-width: 767px) {
+  .bento {
+    column-count: 3;
+  }
+}
+
+/* Breakpoint: 1024px – 1199px */
+@media (min-width: 1024px) {
+  .bento {
+    column-count: 4;
+    column-gap: 16px;
+    padding: 0 16px;
+  }
+}
+
+/* Breakpoint: 1200px+ */
+@media (min-width: 1200px) {
+  .bento {
+    column-count: 5;
+    column-gap: 20px;
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .bento {
+    column-count: 6;
+  }
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--color-bg-raise);
+
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--gap);
+  break-inside: avoid;
+  /* keep each card intact within its column */
+
+  filter: blur(30px);
+  transition: filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gallery-item.in-view {
+  filter: blur(0);
+}
+
+.ratio-square {
+  aspect-ratio: 1 / 1;
+}
+
+.ratio-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.ratio-tall {
+  aspect-ratio: 2 / 3;
+}
+
+.ratio-wide {
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 1024px) {
+  .gallery-item {
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .gallery-item {
+    margin-bottom: 20px;
+    border-radius: 22px;
+  }
+}
+
+.item-image {
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1);
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gallery-item:hover .item-image,
+.gallery-item:focus-within .item-image {
+  transform: scale(1.09);
+}
+
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(18, 21, 26, 0) 55%, rgba(18, 21, 26, 0.55) 100%);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------
+   Footer
+--------------------------------------------- */
+.site-footer {
+  padding: 28px 24px 40px;
+  border-top: 1px solid var(--color-line);
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.03em;
+}
+
+/* JS 有効時のみ適用される、底揃えレイアウト */
+.bento.is-flush {
+  display: flex;
+  align-items: stretch;
+  column-count: auto;
+  gap: 10px;
+}
+
+.bento.is-flush>.bento-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bento.is-flush .gallery-item {
+  flex-basis: 0;
+  flex-shrink: 1;
+  margin: 0;
+  width: auto;
+  aspect-ratio: auto;
+  /* 高さは列の分配で決まるため、ratio-* は重みとしてのみ使う */
+}
+
+@media (min-width: 1024px) {
+
+  .bento.is-flush,
+  .bento.is-flush>.bento-col {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .bento.is-flush,
+  .bento.is-flush>.bento-col {
+    gap: 20px;
+  }
+}

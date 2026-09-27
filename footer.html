@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>footer</title>
+    <style>
+        /* フッター */
+        #footer_bg {
+            width: 100%;
+            background-color: var(--fontcolor);
+            color: var(--basecolor);
+            margin-top: 250px;
+            padding-top: rem;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            width: 1200px;
+            margin: auto;
+            padding-top: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.4rem;
+            font-size: .85rem;
+            color: var(--charcoal-soft);
+        }
+
+        .footer-links a:hover {
+            color: var(--red);
+        }
+
+        .copyright {
+            font-size: .75rem;
+            color: var(--charcoal-soft);
+            letter-spacing: .04em;
+            margin-top: 8rem;
+            width: 1200px;
+            margin: auto;
+            padding: 10rem 0 0.5rem 0;
+        }
+
+        @media screen and (max-width: 1299px) {
+
+            /* フッター */
+            .footer-top {
+                width: 100%;
+            }
+
+            @media screen and (max-width: 767px) {}
+        }
+    </style>
+</head>
+
+<body>
+    <div id="footer_bg">
+        <div id="footer_wrap">
+            <div class="footer-top">
+                <div>Hanako.Yamada</div>
+                <div class="footer-links">
+                    <a href="#hero">Top</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skill</a>
+                    <a href="#works">Work</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+
+            <div class="copyright">© 2026 Myouji namae. All rights reserved.</div>
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webサイト制作 | MYOUJI NAMAE Yamada Portfolio</title>
+    <meta name="description" content="コーディング・デザインを担当したWebサイト制作の実績詳細ページです。">
+    <link rel="stylesheet" href="css/destyle.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="headerContainer" data-header-path="header.html"></div>
+
+    <main>
+        <section id="works01_wrap">
+
+            <div class="work-breadcrumb">
+                <a href="index.html#works">Worksへ戻る</a>
+            </div>
+
+            <div class="work-hero">
+
+                <h5 class="sans_flex">WEB PAGE</h5>
+                <div class="section_subtitle">WEB DESIGN / CODING</div>
+                <p class="hero_copy">
+                    企業のブランドイメージを伝えることを目的としたコーポレートサイトです。<br>
+                    デザインカンプの作成からコーディングまでを一貫して担当し、レスポンシブ対応・アクセシビリティにも配慮しながら制作しました。
+                </p>
+            </div>
+
+            <div class="work-mockup">
+                <picture>
+                    <source srcset="img/mock_dt.webp" media="(min-width:768px)">
+                    <img src="img/mock_sp.webp">
+                </picture>
+            </div>
+
+            <dl class="work-meta-list">
+                <div>
+                    <dt>制作範囲</dt>
+                    <dd>デザイン / コーディング</dd>
+                </div>
+                <div>
+                    <dt>使用技術</dt>
+                    <dd>HTML / CSS / JavaScript</dd>
+                </div>
+                <div>
+                    <dt>制作期間</dt>
+                    <dd>2026年6月〜2026年8月</dd>
+                </div>
+                <div>
+                    <dt>対応</dt>
+                    <dd>レスポンシブデザイン</dd>
+                </div>
+            </dl>
+
+            <div class="work-detail-text">
+                <h3>制作のポイント</h3>
+                <p>
+                    ファーストビューでブランドの世界観が伝わるよう、余白と大きな見出しでメリハリのあるレイアウトを構成。<br>
+                    スクロールに合わせたテキストリビールアニメーションを実装し、閲覧時の体験にも動きを持たせています。<br>
+                    スマートフォン幅では情報の優先順位を見直し、縦積みでも読みやすい構成に調整しました。
+                </p>
+            </div>
+
+            <div class="work-gallery">
+                <img src="img/works01-detail01.jpg" alt="Webサイトのトップページキャプチャ">
+                <img src="img/works01-detail02.jpg" alt="Webサイトの下層ページキャプチャ">
+            </div>
+
+            <div class="view_site">
+                <a href="https://shopping.geocities.jp/nextfocus/event/rainshoes2026/index.html" class="work-link-btn"
+                    target="_blank" rel="noopener">サイトを見る</a>
+            </div>
+
+            <div class="work-nextprev">
+                <a href="works04.html">← 前の実績</a>
+                <a href="works02.html">次の実績 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="footer"></div>
+
+    <script>
+        // header.html を読み込んで、挿入後にヘッダー用のイベントをセットアップする
+        const headerContainer = document.getElementById('headerContainer');
+        const headerPath = headerContainer.dataset.headerPath || 'header.html';
+
+        fetch(headerPath)
+            .then(response => response.text())
+            .then(html => {
+                headerContainer.innerHTML = html;
+                initHeader();
+            })
+            .catch(error => {
+                console.error('headerの読み込みに失敗しました', error);
+            });
+
+        function initHeader() {
+            const header = document.getElementById('siteHeader');
+            const menuBtn = document.getElementById('menuBtn');
+            const navOverlay = document.getElementById('navOverlay');
+
+            // 詳細ページにはheroセクションが無いため、最初からheaderを表示する
+            header.classList.add('visible');
+
+            menuBtn.addEventListener('click', () => {
+                const isOpen = navOverlay.classList.toggle('open');
+                menuBtn.classList.toggle('open', isOpen);
+                header.classList.toggle('open', isOpen);
+                menuBtn.setAttribute('aria-expanded', isOpen);
+            });
+
+            navOverlay.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navOverlay.classList.remove('open');
+                    menuBtn.classList.remove('open');
+                    header.classList.remove('open');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
+        // footer.html を読み込む
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('footer').innerHTML = '読み込みに失敗しました。';
+            });
+
+        // テキストリビール（h1, h2, .hero_copyが画面内に入ったら下から迫り上がらせる）
+        const isMobileWidth = () => window.matchMedia('(max-width: 767px)').matches;
+        const textRevealOptions = isMobileWidth()
+            ? { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
+            : { threshold: 0.2, rootMargin: '0px 0px -10% 0px' };
+
+        const textRevealObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-animated');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, textRevealOptions);
+
+        function setupTextReveal(root = document) {
+            root.querySelectorAll('h1, h2, .hero_copy').forEach(el => {
+                if (el.classList.contains('text-reveal-parent') || el.classList.contains('text-reveal')) return;
+
+                const lines = el.querySelectorAll(':scope > .reveal-line');
+
+                if (lines.length > 0) {
+                    el.classList.add('text-reveal-parent');
+                    lines.forEach((line, i) => {
+                        line.classList.add('text-reveal');
+                        const inner = document.createElement('span');
+                        inner.className = 'text-reveal-inner';
+                        inner.innerHTML = line.innerHTML;
+                        inner.style.transitionDelay = (i * 150) + 'ms';
+                        line.innerHTML = '';
+                        line.appendChild(inner);
+                        textRevealObserver.observe(line);
+                    });
+                } else {
+                    el.classList.add('text-reveal');
+                    const inner = document.createElement('span');
+                    inner.className = 'text-reveal-inner';
+                    inner.innerHTML = el.innerHTML;
+                    el.innerHTML = '';
+                    el.appendChild(inner);
+                    textRevealObserver.observe(el);
+                }
+            });
+        }
+
+        setupTextReveal();
+    </script>
+
+</body>
+
+</html>

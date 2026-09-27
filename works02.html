@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHOTO | Myouji Namae</title>
+  <link rel="stylesheet" href="css/destyle.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style2.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Zen+Kaku+Gothic+Antique&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div id="headerContainer" data-header-path="header.html"></div>
+  <div id="works02_wrap">
+    <div class="work-breadcrumb">
+      <a href="index.html#works">Worksへ戻る</a>
+    </div>
+    <h5 class="sans_flex">PHOTO</h5>
+    <div class="section_subtitle">一眼レフを利用して撮影した写真</div>
+
+    <p>商品掲載画像やSNSに利用した画像です。商品の訴求点を意識したロケーションの選択などにこだわって撮影しています。また、商品画像として掲載するため実物と色味の相違がないかについては厳しくチェックし補正しております。</p>
+
+    <main>
+      <section class="bento" aria-label="写真ギャラリー">
+
+        <div class="gallery-item ratio-portrait" style="--bg-image:url('../img/900_1200_01.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-square" style="--bg-image:url('../img/1040_1040.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-tall" style="--bg-image:url('../img/800_1300_01.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-square" style="--bg-image:url('../img/1040_1040_02.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-wide" style="--bg-image:url('../img/1000_750.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-portrait" style="--bg-image:url('../img/900_1200_02.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-square" style="--bg-image:url('../img/1040_1040_03.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-tall" style="--bg-image:url('../img/800_1300_03.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-portrait" style="--bg-image:url('../img/900_1200_03.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-square" style="--bg-image:url('../img/1040_1040_04.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-wide" style="--bg-image:url('../img/1000_750_02.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-square" style="--bg-image:url('../img/1040_1040_05.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-portrait" style="--bg-image:url('../img/900_1200_04.webp')">
+          <div class="item-image"></div>
+        </div>
+
+        <div class="gallery-item ratio-tall" style="--bg-image:url('../img/800_1300_02.webp')">
+          <div class="item-image"></div>
+        </div>
+
+      </section>
+      <div class="work-nextprev">
+        <a href="works01.html">← 前の実績</a>
+        <a href="works03.html">次の実績 →</a>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    // header.html を読み込んで、挿入後にヘッダー用のイベントをセットアップする
+    const headerContainer = document.getElementById('headerContainer');
+    const headerPath = headerContainer.dataset.headerPath || 'header.html';
+
+    fetch(headerPath)
+      .then(response => response.text())
+      .then(html => {
+        headerContainer.innerHTML = html;
+        initHeader();
+      })
+      .catch(error => {
+        console.error('headerの読み込みに失敗しました', error);
+      });
+
+    function initHeader() {
+      const header = document.getElementById('siteHeader');
+      const menuBtn = document.getElementById('menuBtn');
+      const navOverlay = document.getElementById('navOverlay');
+
+      // heroセクションから外れたらheaderを表示する
+      // （scrollYの数値決め打ちだと、hero部分の高さを変えるたびに調整が必要になるため、
+      // 　heroセクション自体の可視状態をIntersectionObserverで監視する）
+      const hero = document.getElementById('hero');
+      if (hero) {
+        const heroObserver = new IntersectionObserver(([entry]) => {
+          header.classList.toggle('visible', !entry.isIntersecting);
+        }, { threshold: 0 });
+        heroObserver.observe(hero);
+      }
+
+      // ハンバーガーメニューのトグル
+      // ・menuBtnに.openが付くとアイコンがばつ印に変形（CSS側で対応）
+      // ・navOverlayに.openが付くと上から下へスライドして表示
+      // ・headerに.openが付くと背景色と文字色が反転
+      menuBtn.addEventListener('click', () => {
+        const isOpen = navOverlay.classList.toggle('open');
+        menuBtn.classList.toggle('open', isOpen);
+        header.classList.toggle('open', isOpen);
+        menuBtn.setAttribute('aria-expanded', isOpen);
+      });
+
+      navOverlay.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navOverlay.classList.remove('open');
+          menuBtn.classList.remove('open');
+          header.classList.remove('open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>
